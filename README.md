@@ -10,3 +10,25 @@
 ```
 dotnet add package Soenneker.Extensions.String.Markdown
 ```
+
+## Examples
+
+### `ToHtml()`
+
+```csharp
+string markdown = "# Hello, World!";
+string html = markdown.ToHtml();
+Console.WriteLine(html); // Output: <h1>Hello, World!</h1>
+```
+
+*Converts a Markdown string to an HTML string.*
+
+### `ToHtmlMarkup()`
+
+```csharp
+string markdown = "# Hello, World!";
+MarkupString htmlMarkup = markdown.ToHtmlMarkup();
+Console.WriteLine(htmlMarkup); // Output: <h1>Hello, World!</h1>
+```
+
+*Converts a Markdown string to an HTML `MarkupString`.*

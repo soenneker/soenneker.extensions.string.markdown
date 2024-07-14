@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Components;
@@ -18,8 +19,9 @@ public static class MarkdownStringExtension
     /// This method uses the Markdig library to perform the conversion.
     /// </remarks>
     [Pure]
+    [return: NotNullIfNotNull(nameof(markdown))]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ToHtml(this string markdown)
+    public static string? ToHtml(this string? markdown)
     {
         if (markdown.IsNullOrWhiteSpace())
             return markdown;
@@ -34,13 +36,17 @@ public static class MarkdownStringExtension
     /// <param name="markdown">The Markdown string to be converted.</param>
     /// <returns>A <see cref="MarkupString"/> containing the HTML representation of the Markdown input.</returns>
     /// <remarks>
-    /// This method is marked as <see cref="PureAttribute"/>, indicating that it does not have any side effects.
+    /// This method uses the Markdig library to perform the conversion.
     /// </remarks>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static MarkupString ToHtmlMarkup(this string markdown)
+    public static MarkupString ToHtmlMarkup(this string? markdown)
     {
-        string html = markdown.ToHtml();
+        if (markdown.IsNullOrWhiteSpace())
+            return new MarkupString();
+
+        string html = Markdig.Markdown.ToHtml(markdown);
+
         var result = new MarkupString(html);
         return result;
     }

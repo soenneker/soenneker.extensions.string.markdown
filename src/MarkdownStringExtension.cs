@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Components;
 
 namespace Soenneker.Extensions.String.Markdown;
@@ -20,7 +19,6 @@ public static class MarkdownStringExtension
     /// </remarks>
     [Pure]
     [return: NotNullIfNotNull(nameof(markdown))]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string? ToHtml(this string? markdown)
     {
         if (markdown.IsNullOrWhiteSpace())
@@ -39,7 +37,6 @@ public static class MarkdownStringExtension
     /// This method uses the Markdig library to perform the conversion.
     /// </remarks>
     [Pure]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static MarkupString ToHtmlMarkup(this string? markdown)
     {
         if (markdown.IsNullOrWhiteSpace())

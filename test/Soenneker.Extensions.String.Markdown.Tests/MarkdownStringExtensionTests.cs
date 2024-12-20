@@ -1,13 +1,13 @@
-using Soenneker.Tests.FixturedUnit;
+using Soenneker.Tests.Unit;
 using Xunit;
-
 
 namespace Soenneker.Extensions.String.Markdown.Tests;
 
-[Collection("Collection")]
-public class MarkdownStringExtensionTests : FixturedUnitTest
+public class MarkdownStringExtensionTests : UnitTest
 {
-    public MarkdownStringExtensionTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    [Fact]
+    public void Default()
     {
+
     }
 }

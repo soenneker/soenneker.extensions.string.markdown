@@ -1,4 +1,4 @@
-# Contributing to Soenneker.Extensions.String.Markdown
+﻿# Contributing to Soenneker.Extensions.String.Markdown
 
 We're excited that you're interested in contributing!
 

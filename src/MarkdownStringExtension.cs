@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using Markdig;
 using Microsoft.AspNetCore.Components;
 
 namespace Soenneker.Extensions.String.Markdown;
@@ -9,6 +10,10 @@ namespace Soenneker.Extensions.String.Markdown;
 /// </summary>
 public static class MarkdownStringExtension
 {
+    private static readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder()
+                                                         .UseAdvancedExtensions()
+                                                         .Build();
+
     /// <summary>
     /// Converts a markdown string to HTML.
     /// </summary>
@@ -24,8 +29,7 @@ public static class MarkdownStringExtension
         if (markdown.IsNullOrWhiteSpace())
             return markdown;
 
-        string result = Markdig.Markdown.ToHtml(markdown);
-        return result;
+        return Markdig.Markdown.ToHtml(markdown, _pipeline);
     }
 
     /// <summary>
@@ -42,9 +46,8 @@ public static class MarkdownStringExtension
         if (markdown.IsNullOrWhiteSpace())
             return new MarkupString();
 
-        string html = Markdig.Markdown.ToHtml(markdown);
+        string html = Markdig.Markdown.ToHtml(markdown, _pipeline);
 
-        var result = new MarkupString(html);
-        return result;
+        return new MarkupString(html);
     }
 }

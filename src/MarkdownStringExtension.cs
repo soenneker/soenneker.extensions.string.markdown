@@ -1,7 +1,8 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
 using Markdig;
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 
 namespace Soenneker.Extensions.String.Markdown;
 
@@ -24,8 +25,16 @@ public static class MarkdownStringExtension
     /// </remarks>
     [Pure]
     [return: NotNullIfNotNull(nameof(markdown))]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string? ToHtml(this string? markdown)
     {
+        // Cheap fast paths first
+        if (markdown is null)
+            return null;
+
+        if (markdown.Length == 0)
+            return markdown;
+
         if (markdown.IsNullOrWhiteSpace())
             return markdown;
 
@@ -35,19 +44,14 @@ public static class MarkdownStringExtension
     /// <summary>
     /// Converts a Markdown string to an HTML markup string.
     /// </summary>
-    /// <param name="markdown">The Markdown string to be converted.</param>
-    /// <returns>A <see cref="MarkupString"/> containing the HTML representation of the Markdown input.</returns>
-    /// <remarks>
-    /// This method uses the Markdig library to perform the conversion.
-    /// </remarks>
     [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static MarkupString ToHtmlMarkup(this string? markdown)
     {
-        if (markdown.IsNullOrWhiteSpace())
-            return new MarkupString();
+        if (markdown is null || markdown.Length == 0 || markdown.IsNullOrWhiteSpace())
+            return default;
 
-        string html = Markdig.Markdown.ToHtml(markdown, _pipeline);
-
-        return new MarkupString(html);
+        // MarkupString is a readonly struct; returning default avoids an explicit ctor call.
+        return new MarkupString(Markdig.Markdown.ToHtml(markdown, _pipeline));
     }
 }

@@ -43,6 +43,6 @@
     <ItemGroup>
       <PackageReference Include="Markdig" Version="1.1.0" />
       <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.3" />
-      <PackageReference Include="Soenneker.Extensions.String" Version="4.0.615" />
+      <PackageReference Include="Soenneker.Extensions.String" Version="4.0.616" />
     </ItemGroup>
 </Project>

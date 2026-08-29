@@ -44,6 +44,7 @@ public static class MarkdownStringExtension
     /// <summary>
     /// Converts a Markdown string to an HTML markup string.
     /// </summary>
+    /// <returns>Converts a Markdown string to an HTML markup string.</returns>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static MarkupString ToHtmlMarkup(this string? markdown)

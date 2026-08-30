@@ -4,32 +4,40 @@
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.extensions.string.markdown/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.extensions.string.markdown/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Extensions.String.Markdown
-### A collection of helpful markdown string extension methods
+Convert Markdown to HTML with Markdig's advanced extensions, with an optional Blazor `MarkupString` result.
 
 ## Installation
 
-```
+```bash
 dotnet add package Soenneker.Extensions.String.Markdown
 ```
 
-## Examples
-
-### `ToHtml()`
+## Convert to HTML
 
 ```csharp
+using Soenneker.Extensions.String.Markdown;
+
 string markdown = "# Hello, World!";
 string html = markdown.ToHtml();
-Console.WriteLine(html); // Output: <h1>Hello, World!</h1>
+// <h1 id="hello-world">Hello, World!</h1>
 ```
 
-*Converts a Markdown string to an HTML string.*
+The shared Markdig pipeline enables advanced extensions such as tables, task lists, auto-identifiers, footnotes, and emphasis extras. `ToHtml()` returns `null` for `null`, `""` for an empty string, and preserves whitespace-only input unchanged.
 
-### `ToHtmlMarkup()`
+## Render in Blazor
 
-```csharp
-string markdown = "# Hello, World!";
-MarkupString htmlMarkup = markdown.ToHtmlMarkup();
-Console.WriteLine(htmlMarkup); // Output: <h1>Hello, World!</h1>
+```razor
+@using Soenneker.Extensions.String.Markdown
+
+@code {
+    private readonly MarkupString _html = "# Hello, World!".ToHtmlMarkup();
+}
+
+@_html
 ```
 
-*Converts a Markdown string to an HTML `MarkupString`.*
+`ToHtmlMarkup()` returns the generated HTML wrapped in `Microsoft.AspNetCore.Components.MarkupString`. Null, empty, and whitespace-only input produce the default `MarkupString`.
+
+## Security
+
+Markdown conversion is not sanitization. Markdig can preserve raw HTML and generate links from input, while Blazor treats `MarkupString` as trusted markup and does not HTML-encode it. Do not pass untrusted Markdown directly to `ToHtmlMarkup()`. Sanitize the generated HTML with an allowlist-based HTML sanitizer before rendering it in a browser.
